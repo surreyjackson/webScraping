@@ -1,1 +1,50 @@
-
+<style>
+    table,tr,td{
+        border: 1px black solid;
+        border-collapse: collapse;
+    }
+    td{
+        width: 200px;
+        text-align:center;
+    }
+</style>
+<script type = "text/javascript" src = "https://d3js.org/d3.v5.min.js"></script>
+<table><thead><td>Name</td><td>Title</td><td>Email</td></thead>
+    <tbody></tbody>
+</table>
+<script>
+    var employeePromise = d3.csv("employee.csv");
+    var buildTable = function(employees)
+    {
+        var rows = d3.select("tbody")
+        .selectAll("tr")
+        .data(employees)
+        .enter()
+        .append("tr");
+        rows.append("td").text(getName);
+        rows.append("td").text(getTitle);
+        rows.append("td").text(getEmail);      
+    }
+    var success = function(employees)
+    {
+        console.log("it worked!",employees);
+        buildTable(employees);
+    }
+    var failure = function(errorMSG)
+    {
+        console.log("It failed!", errorMSG);
+    }
+    employeePromise.then(success,failure);
+    var getName = function(employee)
+    {
+        return employee.firstName + " " + employee.lastName;
+    }
+    var getTitle = function(employee)
+    {
+        return employee.title;
+    }
+        var getEmail = function(employee)
+    {
+        return employee.email;
+    }
+</script>
